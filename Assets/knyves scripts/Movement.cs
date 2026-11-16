@@ -3,12 +3,12 @@ using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
-    public float Speed = 5;
-    public float JumpHeight;
+    public float moveSpeed;
+    public float jumpHeight;
 
     public Rigidbody2D rb2d;
 
-    private float movement;
+    private float _movement;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,16 +19,19 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        rb2d.linearVelocityX = _movement;
     }
 
     public void Move(InputAction.CallbackContext ctx)
     {
-        
+        _movement = ctx.ReadValue<Vector2>().x * moveSpeed;
     }
 
     public void Jump(InputAction.CallbackContext ctx)
     {
-
+        if (ctx.ReadValue<float>() == 1)
+        {
+           rb2d.linearVelocityY = jumpHeight;
+        }
     }
 }
