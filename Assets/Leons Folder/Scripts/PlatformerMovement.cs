@@ -16,6 +16,7 @@ public class PlatformerMovement : MonoBehaviour
     public float dashingTime = 1f;
     public float dashingCooldown = 5f;
     private float direction;
+    private bool JumpS;
 
     public float ShardCount;
     [SerializeField] private LayerMask jumpableGround;
@@ -31,6 +32,10 @@ public class PlatformerMovement : MonoBehaviour
         if (isDashing == false)
         {
             rb2d.linearVelocityX = _movement;
+        }
+        if (IsGrounded())
+        {
+            JumpS = true;
         }
     }
     public void Move(InputAction.CallbackContext ctx)
@@ -56,9 +61,14 @@ public class PlatformerMovement : MonoBehaviour
     // Jump
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (ctx.ReadValue<float>() == 1 && IsGrounded() && (isDashing = false))
+        if (ctx.ReadValue<float>() == 1 && IsGrounded() && (isDashing == false))
         {
             rb2d.linearVelocityY = jumpHeight;
+        }
+        else if (JumpS == true && ctx.ReadValue<float>() == 1 && (ShardCount >= 2))
+        {
+            rb2d.linearVelocityY = jumpHeight;
+            JumpS = false;
         }
     }
     private bool IsGrounded()
@@ -69,7 +79,7 @@ public class PlatformerMovement : MonoBehaviour
 
     public void Dasher(InputAction.CallbackContext ctx)
     {
-        if (canDash == true)
+        if (canDash == true && (ShardCount >= 3))
         {
             StartCoroutine(Dash());
         }
