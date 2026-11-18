@@ -12,9 +12,9 @@ public class PlatformerMovement : MonoBehaviour
     private BoxCollider2D coll;
     private bool canDash = true;
     private bool isDashing;
-    private float dashingPower = 24f;
-    private float dashingTime = 0.2f;
-    private float dashingCooldown = 1f;
+    public float dashingPower = 100f;
+    public float dashingTime = 1f;
+    public float dashingCooldown = 5f;
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private TrailRenderer trailrenderer;
     void Awake()
@@ -37,7 +37,7 @@ public class PlatformerMovement : MonoBehaviour
     // Jump
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (ctx.ReadValue<float>() == 1 && IsGrounded() && (isDashing = false) )
+        if (ctx.ReadValue<float>() == 1 && IsGrounded() && (isDashing = false))
         {
             rb2d.linearVelocityY = jumpHeight;
         }
@@ -47,14 +47,22 @@ public class PlatformerMovement : MonoBehaviour
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
     // Dash
-    public void Dash(InputAction.CallbackContext ctx);
+
+    public void Dasher(InputAction.CallbackContext ctx)
+    {
+        if (canDash == true)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
 
     private IEnumerator Dash()
     {
         canDash = false;
         isDashing = true;
         float originalGravity = rb2d.gravityScale;
-        rb2d.gravityScale = 0f;
+        rb2d.gravityScale = .1f;
         rb2d.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f);
         trailrenderer.emitting = true;
         yield return new WaitForSeconds(dashingTime);
