@@ -15,6 +15,10 @@ public class PlatformerMovement : MonoBehaviour
     public float dashingPower = 100f;
     public float dashingTime = 1f;
     public float dashingCooldown = 5f;
+    private float direction;
+    private bool JumpS;
+
+    public float ShardCount;
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private TrailRenderer trailrenderer;
     void Awake()
@@ -29,17 +33,42 @@ public class PlatformerMovement : MonoBehaviour
         {
             rb2d.linearVelocityX = _movement;
         }
+        if (IsGrounded())
+        {
+            JumpS = true;
+        }
     }
     public void Move(InputAction.CallbackContext ctx)
     {
-        _movement = ctx.ReadValue<Vector2>().x * movespeed;
+        if (ShardCount <= 0)
+        {
+            _movement = ctx.ReadValue<Vector2>().x * movespeed / 3;
+        }
+        else if (ShardCount > 0) 
+        {
+            _movement = ctx.ReadValue<Vector2>().x * movespeed;
+        }
+
+        if (_movement < 0)
+        {
+            direction = -1;
+        }
+        else if (_movement > 0)
+        {
+            direction = 1;
+        }
     }
     // Jump
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (ctx.ReadValue<float>() == 1 && IsGrounded() && (isDashing = false))
+        if (ctx.ReadValue<float>() == 1 && IsGrounded() && (isDashing == false))
         {
             rb2d.linearVelocityY = jumpHeight;
+        }
+        else if (JumpS == true && ctx.ReadValue<float>() == 1 && (ShardCount >= 2))
+        {
+            rb2d.linearVelocityY = jumpHeight;
+            JumpS = false;
         }
     }
     private bool IsGrounded()
@@ -50,7 +79,7 @@ public class PlatformerMovement : MonoBehaviour
 
     public void Dasher(InputAction.CallbackContext ctx)
     {
-        if (canDash == true)
+        if (canDash == true && (ShardCount >= 3))
         {
             StartCoroutine(Dash());
         }
@@ -63,7 +92,7 @@ public class PlatformerMovement : MonoBehaviour
         isDashing = true;
         float originalGravity = rb2d.gravityScale;
         rb2d.gravityScale = .1f;
-        rb2d.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        rb2d.linearVelocity = new Vector2(direction * dashingPower, 0f);
         trailrenderer.emitting = true;
         yield return new WaitForSeconds(dashingTime);
         trailrenderer.emitting = false;
