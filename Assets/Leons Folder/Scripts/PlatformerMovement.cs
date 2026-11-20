@@ -1,35 +1,42 @@
 using System.Collections;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlatformerMovement : MonoBehaviour
 {
+    private bool JumpS;
     public float movespeed;
     public float jumpHeight;
     private Rigidbody2D rb2d;
     private float _movement;
     private BoxCollider2D coll;
     private bool canDash = true;
-    private bool isDashing;
+    public bool isDashing;
     public float dashingPower;
     public float dashingTime;
     public float dashingCooldown;
     private float direction;
-    private bool JumpS;
-    private bool WallReadyLeft = true;
-    private bool WallReadyRight = true;
+    private bool WallReadyLeft;
+    private bool WallReadyRight;
     public float ShardCount;
     public float JumpSHeight;
     public float WallJumpHeight;
+    public float speed = 0f;
+    public float maxspeed = 500f;
+    public float accelerationspeed;
+    public float mover;
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private TrailRenderer trailrenderer;
     [SerializeField] private LayerMask WallRight;
     [SerializeField] private LayerMask WallLeft;
     void Awake()
+       
     {
         rb2d = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+
     }
 
     void Update()
@@ -44,7 +51,6 @@ public class PlatformerMovement : MonoBehaviour
             WallReadyLeft = true;
             WallReadyRight = true;
         }
-
     }
     //walk
     public void Move(InputAction.CallbackContext ctx)
@@ -52,6 +58,7 @@ public class PlatformerMovement : MonoBehaviour
         if (ShardCount <= 0)
         {
             _movement = ctx.ReadValue<Vector2>().x * movespeed / 3;
+            
         }
         else if (ShardCount >= 1) 
         {
@@ -70,36 +77,63 @@ public class PlatformerMovement : MonoBehaviour
     // Jump
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (ctx.ReadValue<float>() == 1 && IsGrounded() && (isDashing == false) && (ShardCount < 1))
+        if (ctx.performed == false || isDashing == true)
+            return;
+
+        if (IsGrounded())
+        {
+            Jump();
+        }
+        // double jump
+        else if (JumpS == true && ShardCount >= 2 && LeftCling() == false && RightCling() == false)
+        {
+            DoubleJump();
+        }
+        // Wall Jump
+        else if (ShardCount >= 4)
+        {
+            WallJump();
+        }
+    }
+
+    private void Jump()
+    {
+        if (ShardCount < 1)
         {
             rb2d.linearVelocityY = jumpHeight;
         }
-        else if (ctx.ReadValue<float>() == 1 && IsGrounded() && (isDashing == false) && (ShardCount >= 1))
+        else
         {
             rb2d.linearVelocityY = jumpHeight * 2;
             Debug.Log("Full Jump");
         }
-        // Wall Jump
-        else if (ctx.ReadValue<float>() == 1 && LeftCling() && (isDashing == false) && (WallReadyLeft == true) && (ShardCount >= 4))
+    }
+
+    private void DoubleJump()
+    {
+        Debug.Log("I did it");
+        rb2d.linearVelocityY = JumpSHeight;
+        JumpS = false;
+    }
+
+    private void WallJump()
+    {
+        if (LeftCling() && WallReadyLeft == true)
         {
+            Debug.Log("Left");
             WallReadyLeft = false;
             WallReadyRight = true;
             rb2d.linearVelocityY = WallJumpHeight;
         }
-        else if (ctx.ReadValue<float>() == 1 && RightCling() && (isDashing == false) && (WallReadyRight == true) && (ShardCount >= 4))
+        else if (RightCling() && WallReadyRight == true)
         {
+            Debug.Log("Right");
             WallReadyLeft = true;
             WallReadyRight = false;
             rb2d.linearVelocityY = WallJumpHeight;
         }
-        // double jump
-        else if (ctx.ReadValue<float>() == 1 && (isDashing = false) && (JumpS = true) && (ShardCount >= 2))
-        {
-            Debug.Log("I did it");
-            rb2d.linearVelocityY = JumpSHeight;
-            JumpS = false;
-        }
     }
+
     //Regular Jump
     private bool IsGrounded()
     {
