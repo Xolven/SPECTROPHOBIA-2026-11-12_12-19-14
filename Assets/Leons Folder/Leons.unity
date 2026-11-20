@@ -892,7 +892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37905b99f8ed8f349a613e3988a8696f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlatformerMovement
-  JumpS: 0
   movespeed: 5
   jumpHeight: 7
   isDashing: 0
