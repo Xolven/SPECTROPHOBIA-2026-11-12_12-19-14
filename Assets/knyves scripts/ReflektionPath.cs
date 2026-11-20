@@ -1,7 +1,7 @@
 using Pathfinding;
 using UnityEngine;
 
-[RequireComponent(typeof(IAstarAI))]
+[RequireComponent(typeof(IAstarAI), typeof(Rigidbody2D))]
 public class ReflektionPath : MonoBehaviour
 {
     public enum State
@@ -12,15 +12,20 @@ public class ReflektionPath : MonoBehaviour
     private State currentState;
     private GameObject player;
     public float Maxdistance;
+    public float distanceToGoal;
     public LayerMask blockinglayer;
     public GameObject[] wandwe;
     private GameObject CurrentWanderPos;
 
+    public float Intrest;
+    private float interestTimer;
+
     private IAstarAI AI;
+    private Rigidbody2D Rb;
 
     private void Wander()
     {
-        if (Vector2.Distance(transform.position, CurrentWanderPos.transform.position) < 3f)
+        if (Vector2.Distance(transform.position, CurrentWanderPos.transform.position) < distanceToGoal)
         {
             CurrentWanderPos = wandwe[Random.Range(0, wandwe.Length)];
         }
@@ -36,6 +41,8 @@ public class ReflektionPath : MonoBehaviour
     void Awake()
     {
         AI = GetComponent<IAstarAI>();
+        Rb = GetComponent<Rigidbody2D>();
+
         player = GameObject.FindGameObjectWithTag("Player");
         
         CurrentWanderPos = wandwe[Random.Range(0, wandwe.Length)];
@@ -53,18 +60,33 @@ public class ReflektionPath : MonoBehaviour
         {
             Chase();
         }
+
+        if (AI is not null && AI.hasPath)
+        {
+            Rb.linearVelocityX = Mathf.Sign(AI.destination.x - AI.position.x) * AI.maxSpeed;
+        }
+
+        if (interestTimer >= 0)
+        {
+            interestTimer -= Time.deltaTime;
+        }
     }
 
     private State GetState()
     {
-        if (Vector2.Distance(transform.position, player.transform.position) > Maxdistance)
+        if (interestTimer <= 0)
         {
-            return State.Wander;
-        }
+            if (Vector2.Distance(transform.position, player.transform.position) > Maxdistance)
+            {
+                return State.Wander;
+            }
 
-        if (Physics2D.Linecast(transform.position, player.transform.position, blockinglayer))
-        {
-            return State.Wander;
+            if (Physics2D.Linecast(transform.position, player.transform.position, blockinglayer))
+            {
+                return State.Wander;
+            }
+                
+            interestTimer = Intrest;
         }
 
         return State.Chase;
@@ -76,7 +98,12 @@ public class ReflektionPath : MonoBehaviour
 
         if (player && currentState == State.Chase)
         {
-            Gizmos.DrawLine(transform.position, player.transform.position);
+            Gizmos.DrawLine(AI.position, AI.steeringTarget);
+        }
+
+        if (AI is not null)
+        {
+            Gizmos.DrawWireSphere(AI.destination, distanceToGoal);
         }
     }
 }
