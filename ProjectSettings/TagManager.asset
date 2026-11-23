@@ -4,11 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-<<<<<<< HEAD
-  - Ground
-=======
   - enemy
->>>>>>> aef52ee426ce998159ce4ed548aadb30f47d3743
+  - obstacle
   layers:
   - Default
   - TransparentFX
