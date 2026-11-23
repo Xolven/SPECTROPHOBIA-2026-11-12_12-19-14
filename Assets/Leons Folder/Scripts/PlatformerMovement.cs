@@ -7,10 +7,10 @@ using UnityEngine.InputSystem;
 public class PlatformerMovement : MonoBehaviour
 {
     private bool JumpS;
-    public float movespeed;
+    public float movespeed = 5f;
     public float jumpHeight;
     private Rigidbody2D rb2d;
-    private float _movement;
+    public float _Movement;
     private BoxCollider2D coll;
     private bool canDash = true;
     public bool isDashing;
@@ -22,11 +22,7 @@ public class PlatformerMovement : MonoBehaviour
     private bool WallReadyRight;
     public float ShardCount;
     public float JumpSHeight;
-    public float WallJumpHeight;
-    public float speed = 0f;
-    public float maxspeed = 500f;
-    public float accelerationspeed;
-    public float mover;
+    public float WallJumpSpeed;
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private TrailRenderer trailrenderer;
     [SerializeField] private LayerMask WallRight;
@@ -43,7 +39,7 @@ public class PlatformerMovement : MonoBehaviour
     {
         if (isDashing == false)
         {
-            rb2d.linearVelocityX = _movement;
+            rb2d.linearVelocityX = _Movement;
         }
         if (IsGrounded())
         {
@@ -57,19 +53,19 @@ public class PlatformerMovement : MonoBehaviour
     {
         if (ShardCount <= 0)
         {
-            _movement = ctx.ReadValue<Vector2>().x * movespeed / 3;
+            _Movement = ctx.ReadValue<Vector2>().x * movespeed / 3;
             
         }
         else if (ShardCount >= 1) 
         {
-            _movement = ctx.ReadValue<Vector2>().x * movespeed;
+            _Movement = ctx.ReadValue<Vector2>().x * movespeed;
         }
 
-        if (_movement < 0)
+        if (_Movement < 0)
         {
             direction = -1;
         }
-        else if (_movement > 0)
+        else if (_Movement > 0)
         {
             direction = 1;
         }
@@ -95,7 +91,7 @@ public class PlatformerMovement : MonoBehaviour
             WallJump();
         }
     }
-
+    //Jump
     private void Jump()
     {
         if (ShardCount < 1)
@@ -105,39 +101,51 @@ public class PlatformerMovement : MonoBehaviour
         else
         {
             rb2d.linearVelocityY = jumpHeight * 2;
-            Debug.Log("Full Jump");
         }
     }
-
+    // Double Jump
     private void DoubleJump()
     {
-        Debug.Log("I did it");
         rb2d.linearVelocityY = JumpSHeight;
         JumpS = false;
+        Debug.Log ("Oops");
     }
-
+    
+    //Wall Jump
     private void WallJump()
     {
         if (LeftCling() && WallReadyLeft == true)
         {
-            Debug.Log("Left");
             WallReadyLeft = false;
             WallReadyRight = true;
-            rb2d.linearVelocityY = WallJumpHeight;
+            rb2d.linearVelocityY = WallJumpSpeed;
+            rb2d.linearVelocityX = -movespeed;
+            //rb2d.linearVelocity = new Vector2(direction * WallJumpSpeed.x, WallJumpSpeed.y);
         }
         else if (RightCling() && WallReadyRight == true)
         {
-            Debug.Log("Right");
             WallReadyLeft = true;
             WallReadyRight = false;
-            rb2d.linearVelocityY = WallJumpHeight;
+            rb2d.linearVelocityY = WallJumpSpeed;
+            rb2d.linearVelocityX = -movespeed;
+            //rb2d.linearVelocity = new Vector2(direction * WallJumpSpeed.x, WallJumpSpeed.y);
         }
     }
 
     //Regular Jump
     private bool IsGrounded()
+
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        if (LeftCling() || RightCling())
+        {
+            // Does Nothing
+            return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .0f, jumpableGround);
+        }
+        else
+        {
+            return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        }
+        
     }
 
     // wall jump pt 2
