@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 125963081}
   m_Layer: 3
   m_Name: Square (3)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 168224949}
   m_Layer: 3
   m_Name: Square (13)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -502,7 +502,7 @@ GameObject:
   - component: {fileID: 280600655}
   m_Layer: 3
   m_Name: Square (1)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -641,7 +641,7 @@ GameObject:
   - component: {fileID: 687483738}
   m_Layer: 3
   m_Name: Square (11)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -798,7 +798,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: AstarPathfindingProject::AstarPath
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAACAn+vX6Y/PXQIAABkFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1v2zAM/SuBzutgBw3S7ramabpDmqDe0IsvqkTbQmTJkOTmo8h/HyXZsZthJ8vkI/XeI+1PIpRtgDltVkbwteZAfkyIP5NvkyH5DAdaapWJE/SYN8Fd5UE0YF6pExrjqS+zugZnBPupSunBCQZbJQpt6iUvYaGtsxguqLSAKaOdr1YY+pyQAz5u7n3JEU/TuT+d8HSfTM54ZKAcmAE6TXro7Pusg0Zkq5ikdQPc0x4KZpeCacQpVNRBktCCaSmF7QgRd2yC4KypwIBXzAVFfYFELKhAlJXzHcfVm6Kw4Dr5hh4fhUGjYlvyoKN7NbW7yO2DytZflEZWsef6n/RNGtKF0fVzf20aJLlKsN0rPTJq3cjdcfhxYJ4Gh/ZU7ui7hLcK1IteGd0qjklnWl/aWpg+Dq8XZYsK2G6IR6pXwbYZLO8N70fpNZyD+MNCivo9GHkbA5nUwe+wAWBwNr+QcNgP27XAqGfxx8JvWo4XqUs8CWMdpjqVytN7163xULIMnnk1rVtoo8CMOzSgqHTHLfZx1yO8yv2/6on6b6a7vcv1n8JVSQgP+CS5Sm31/jItW+n9Gmy1aZ0UCgarfeIFjVpopeKG2a9JX5W1pqBsVFW2gn9dLZKw+ZzTOeN3d2lS8PkNA3wWt8VdOk0ohYKE3RMKZVK5jTw7d3BqamiucM/6P8lkZWgTlp0bul+JU61H/IQqdMYMgNrEDr1DFgxegt8lX3KB/mTgnFBh3uQzJ1KzHfD80igPSpcHZ2g+dMlJIz6085GcLMKvIyc+fNnlrYEPAXt/ed/sTM5/AVBLAwQUAAAICAAAgJ/rcWoR8mwAAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNdRUEovSizIKAaKGII4pZkpIHa0kkGyuXlKonlyioWFoUFairluciqQTjNJszA0MkhMTE1TigWqL6ksSPVLzE2F6AlILMlIy8xLycxL13MvykxxBxmtFFsLAFBLAQItABQAAAgIAACAn+vX6Y/PXQIAABkFAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAACAn+txahHybAAAAHgAAAAJACQAAAAAAAAAAAAAAKoCAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAAYQMAAAAA
+    dataString: UEsDBBQAAAgIAACAn+tBvLTZXAIAABgFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE2P2jAQ/SvI51IlaBFsb11g2R5Y0KbVXnIx9oRYOHZkO3yK/96xk5AsVU9xZt6M33szyZUIZUtgTpulEXylOZAfA+LP5NugS77Bie60SsQFWsyn4C73IBowH9QJjfHYl1ldgDOC/VQ76cERBislMm2KBd/BTFtnMZxRaQFTRjtfrTB0HZATPobPvuSMp9HEny54eo4GNzwyUA5MBx1FLXT8fdxAa2SlmKRFCdzT7grG94JRjVOoqIFEoQXTUgrbECLuXAbBSZmDAa+YC4r6Aom6IAexy53v2K9eZ5kF18g39DwXBo2q25IXXbtXULuvuR2orPxF00Cqbrn6JzuMQzozunhrb42DIpcLtv+gZ0at65nbD8874nEw6Ejlnm4lfOag3vXS6EpxTDpT+dLKwmjevd6FzXJg+y5eU30IVmXneOt3O0mv4Ra0n2ZSFNvg41MdSKQOdocFAIOj+YWEw3rYpgVGPYs/Fn7TXX+PmsSrMNZhqlGpPL2troyHkkXwzKup3EwbBabfoQRFpTtvsI97nOBD7v9Vr9R/Ms3tTa79Eh5KQrjDR9FDaqOP92nZXB9XYPN15aRQ0FntE+9o1EwrVS+Y/Zr0VUllMsp6VbtK8K+rRSI2mXA6YXw6jaOMT4YM8Jk9ZdN4FFEKGQm7JxTKpHJT82zcwamprrnCPWt/JIOloWXYdW7ocSkuhe7xEyrTCTMAal13aB2yYPAS/Cz5ggv0JwHnhArzJteUSM32wNN7ozQoXZycoWnXJSWlOGjnIymZhT9HSnz4vssbAwcBR3952+xGbn8BUEsDBBQAAAgIAACAn+txahHybAAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrSSQbK5eUqieXKKhYWhQVqKuW5yKpBOM0mzMDQySExMTVOKBaovqSxI9UvMTYXoCUgsyUjLzEvJzEvXcy/KTHEHGa0UWwsAUEsBAi0AFAAACAgAAICf60G8tNlcAgAAGAUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAICf63FqEfJsAAAAeAAAAAkAJAAAAAAAAAAAAAAAqQIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABgAwAAAAA=
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -923,7 +923,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -948,7 +948,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -959,7 +959,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
+  m_AllowDynamicResolution: 1
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -1036,7 +1036,7 @@ GameObject:
   - component: {fileID: 957134140}
   m_Layer: 3
   m_Name: Square (14)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1175,7 +1175,7 @@ GameObject:
   - component: {fileID: 991932840}
   m_Layer: 3
   m_Name: Square (2)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1314,7 +1314,7 @@ GameObject:
   - component: {fileID: 1056743937}
   m_Layer: 3
   m_Name: Square (7)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1453,7 +1453,7 @@ GameObject:
   - component: {fileID: 1121052947}
   m_Layer: 3
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1592,7 +1592,7 @@ GameObject:
   - component: {fileID: 1154482662}
   m_Layer: 3
   m_Name: Square (8)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1823,7 +1823,7 @@ GameObject:
   - component: {fileID: 1241379709}
   m_Layer: 3
   m_Name: Square (15)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1962,7 +1962,7 @@ GameObject:
   - component: {fileID: 1241404134}
   m_Layer: 3
   m_Name: Square (4)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2193,7 +2193,7 @@ GameObject:
   - component: {fileID: 1350229119}
   m_Layer: 3
   m_Name: Square (5)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2730,7 +2730,7 @@ GameObject:
   - component: {fileID: 1696933191}
   m_Layer: 3
   m_Name: Square (12)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2869,7 +2869,7 @@ GameObject:
   - component: {fileID: 1744180919}
   m_Layer: 3
   m_Name: Square (10)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3008,7 +3008,7 @@ GameObject:
   - component: {fileID: 1768444112}
   m_Layer: 3
   m_Name: Square (6)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3147,7 +3147,7 @@ GameObject:
   - component: {fileID: 1777998391}
   m_Layer: 3
   m_Name: Square (9)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3470,7 +3470,7 @@ GameObject:
   - component: {fileID: 1954805265}
   m_Layer: 3
   m_Name: Square (16)
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3702,7 +3702,6 @@ GameObject:
   - component: {fileID: 2027140670}
   - component: {fileID: 2027140676}
   - component: {fileID: 2027140675}
-  - component: {fileID: 2027140674}
   - component: {fileID: 2027140677}
   m_Layer: 0
   m_Name: Capsule
@@ -3816,7 +3815,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: -876546973899608171, guid: a2407126e3372f64cacb75ed466a5621, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3850,34 +3849,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!114 &2027140674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2027140668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: AstarPathfindingProject::Pathfinding.Seeker
-  version: 1
-  drawGizmos: 1
-  detailedGizmos: 0
-  startEndModifier:
-    addPoints: 0
-    exactStartPoint: 3
-    exactEndPoint: 3
-    useRaycasting: 0
-    mask:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    useGraphRaycasting: 0
-  traversableTags: -1
-  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  graphMask:
-    value: -1
 --- !u!114 &2027140675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3979,6 +3950,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 699954224}
+  - {fileID: 1477731644}
+  - {fileID: 2027140669}
   - {fileID: 280600657}
   - {fileID: 1350229121}
   - {fileID: 1768444114}
@@ -3996,8 +3969,6 @@ SceneRoots:
   - {fileID: 1241404136}
   - {fileID: 991932842}
   - {fileID: 125963083}
-  - {fileID: 1477731644}
-  - {fileID: 2027140669}
   - {fileID: 236606958}
   - {fileID: 1892898866}
   - {fileID: 1182240819}

@@ -55,10 +55,12 @@ public class ReflektionPath : MonoBehaviour
         if(currentState == State.Wander)
         {
             Wander();
+            Maxdistance = 10;
         }
         else if(currentState == State.Chase)
         {
             Chase();
+            Maxdistance = 25;
         }
 
         if (AI is not null && AI.hasPath)
@@ -66,27 +68,27 @@ public class ReflektionPath : MonoBehaviour
             Rb.linearVelocityX = Mathf.Sign(AI.destination.x - AI.position.x) * AI.maxSpeed;
         }
 
-        if (interestTimer >= 0)
+        if (ShouldTrackPlayer())
+        {
+            interestTimer = Intrest;
+        }
+        else if (interestTimer >= 0)
         {
             interestTimer -= Time.deltaTime;
         }
     }
 
+    private bool ShouldTrackPlayer()
+    {
+        return Vector2.Distance(transform.position, player.transform.position) < Maxdistance
+            && !Physics2D.Linecast(transform.position, player.transform.position, blockinglayer);
+    }
+
     private State GetState()
     {
-        if (interestTimer <= 0)
+        if (interestTimer <= 0 && !ShouldTrackPlayer())
         {
-            if (Vector2.Distance(transform.position, player.transform.position) > Maxdistance)
-            {
-                return State.Wander;
-            }
-
-            if (Physics2D.Linecast(transform.position, player.transform.position, blockinglayer))
-            {
-                return State.Wander;
-            }
-                
-            interestTimer = Intrest;
+            return State.Wander;
         }
 
         return State.Chase;
