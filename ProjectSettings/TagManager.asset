@@ -3,8 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-<<<<<<< HEAD
   tags:
+<<<<<<< HEAD
+  - obstacle
+  - enemy
+=======
   - Ground
 =======
 <<<<<<< HEAD
@@ -15,6 +18,7 @@ TagManager:
   tags: []
 >>>>>>> bc10d6fe348f6a81185e9cd5849c7e168ae56d6b
 >>>>>>> cb1fd4c20bfd0c27780f06d7718d2c53e4a17cd5
+>>>>>>> 888cfa888c8009f1126706cea7a4517f94f8f606
   layers:
   - Default
   - TransparentFX
