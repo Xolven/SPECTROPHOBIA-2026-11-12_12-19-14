@@ -3,12 +3,23 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
+<<<<<<< HEAD
+  tags:
+  - Ground
+=======
+<<<<<<< HEAD
+  tags:
+  - enemy
+  - obstacle
+=======
   tags: []
+>>>>>>> bc10d6fe348f6a81185e9cd5849c7e168ae56d6b
+>>>>>>> cb1fd4c20bfd0c27780f06d7718d2c53e4a17cd5
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Obstacle
   - Water
   - UI
   - 
