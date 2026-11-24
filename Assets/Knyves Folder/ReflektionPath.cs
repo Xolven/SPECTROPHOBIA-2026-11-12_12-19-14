@@ -1,5 +1,7 @@
 using Pathfinding;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(IAstarAI), typeof(Rigidbody2D))]
 public class ReflektionPath : MonoBehaviour
@@ -16,11 +18,12 @@ public class ReflektionPath : MonoBehaviour
     public LayerMask blockinglayer;
     public GameObject[] wandwe;
     private GameObject CurrentWanderPos;
-
+    public float RunSpeed;
+    public float WalkSpeed;
     public float Intrest;
     private float interestTimer;
 
-    private IAstarAI AI;
+    public IAstarAI AI;
     private Rigidbody2D Rb;
 
     private void Wander()
@@ -28,13 +31,15 @@ public class ReflektionPath : MonoBehaviour
         if (Vector2.Distance(transform.position, CurrentWanderPos.transform.position) < distanceToGoal)
         {
             CurrentWanderPos = wandwe[Random.Range(0, wandwe.Length)];
+            AI.destination = CurrentWanderPos.transform.position;
         }
 
-        AI.destination = CurrentWanderPos.transform.position;
+        AI.maxSpeed = WalkSpeed;
     }
 
     private void Chase()
     {
+        AI.maxSpeed = RunSpeed;
         AI.destination = player.transform.position;
     }
 
@@ -46,6 +51,7 @@ public class ReflektionPath : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         
         CurrentWanderPos = wandwe[Random.Range(0, wandwe.Length)];
+        AI.destination = CurrentWanderPos.transform.position;
     }
 
     void Update()
