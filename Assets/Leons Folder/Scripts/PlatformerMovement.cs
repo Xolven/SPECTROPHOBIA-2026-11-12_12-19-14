@@ -1,56 +1,167 @@
 using System.Collections;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlatformerMovement : MonoBehaviour
 {
-    public float movespeed;
+    private bool JumpS;
+    public float movespeed = 5f;
     public float jumpHeight;
     private Rigidbody2D rb2d;
-    private float _movement;
+    public float _Movement;
     private BoxCollider2D coll;
     private bool canDash = true;
-    private bool isDashing;
-    public float dashingPower = 100f;
-    public float dashingTime = 1f;
-    public float dashingCooldown = 5f;
+    public bool isDashing;
+    public float dashingPower;
+    public float dashingTime;
+    public float dashingCooldown;
+    private float direction;
+    private bool WallReadyLeft;
+    private bool WallReadyRight;
+    public float ShardCount;
+    public float JumpSHeight;
+    public float WallJumpSpeed;
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private TrailRenderer trailrenderer;
+    [SerializeField] private LayerMask WallRight;
+    [SerializeField] private LayerMask WallLeft;
     void Awake()
+       
     {
         rb2d = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+
     }
 
     void Update()
     {
         if (isDashing == false)
         {
-            rb2d.linearVelocityX = _movement;
+            rb2d.linearVelocityX = _Movement;
+        }
+        if (IsGrounded())
+        {
+            JumpS = true;
+            WallReadyLeft = true;
+            WallReadyRight = true;
         }
     }
+    //walk
     public void Move(InputAction.CallbackContext ctx)
     {
-        _movement = ctx.ReadValue<Vector2>().x * movespeed;
+        if (ShardCount <= 0)
+        {
+            _Movement = ctx.ReadValue<Vector2>().x * movespeed / 3;
+            
+        }
+        else if (ShardCount >= 1) 
+        {
+            _Movement = ctx.ReadValue<Vector2>().x * movespeed;
+        }
+
+        if (_Movement < 0)
+        {
+            direction = -1;
+        }
+        else if (_Movement > 0)
+        {
+            direction = 1;
+        }
     }
     // Jump
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (ctx.ReadValue<float>() == 1 && IsGrounded() && (isDashing = false))
+        if (ctx.performed == false || isDashing == true)
+            return;
+
+        if (IsGrounded())
+        {
+            Jump();
+        }
+        // double jump
+        else if (JumpS == true && ShardCount >= 2 && LeftCling() == false && RightCling() == false)
+        {
+            DoubleJump();
+        }
+        // Wall Jump
+        else if (ShardCount >= 4)
+        {
+            WallJump();
+        }
+    }
+    //Jump
+    private void Jump()
+    {
+        if (ShardCount < 1)
         {
             rb2d.linearVelocityY = jumpHeight;
         }
+        else
+        {
+            rb2d.linearVelocityY = jumpHeight * 2;
+        }
     }
-    private bool IsGrounded()
+    // Double Jump
+    private void DoubleJump()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        rb2d.linearVelocityY = JumpSHeight;
+        JumpS = false;
+        Debug.Log ("Oops");
+    }
+    
+    //Wall Jump
+    private void WallJump()
+    {
+        if (LeftCling() && WallReadyLeft == true)
+        {
+            WallReadyLeft = false;
+            WallReadyRight = true;
+            rb2d.linearVelocityY = WallJumpSpeed;
+            rb2d.linearVelocityX = -movespeed;
+            //rb2d.linearVelocity = new Vector2(direction * WallJumpSpeed.x, WallJumpSpeed.y);
+        }
+        else if (RightCling() && WallReadyRight == true)
+        {
+            WallReadyLeft = true;
+            WallReadyRight = false;
+            rb2d.linearVelocityY = WallJumpSpeed;
+            rb2d.linearVelocityX = -movespeed;
+            //rb2d.linearVelocity = new Vector2(direction * WallJumpSpeed.x, WallJumpSpeed.y);
+        }
+    }
+
+    //Regular Jump
+    private bool IsGrounded()
+
+    {
+        if (LeftCling() || RightCling())
+        {
+            // Does Nothing
+            return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .0f, jumpableGround);
+        }
+        else
+        {
+            return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        }
+        
+    }
+
+    // wall jump pt 2
+    private bool LeftCling()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.left, .1f, WallLeft);
+    }
+    private bool RightCling()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.right, .1f, WallLeft);
     }
     // Dash
 
     public void Dasher(InputAction.CallbackContext ctx)
     {
-        if (canDash == true)
+        if (canDash == true && (ShardCount >= 3))
         {
             StartCoroutine(Dash());
         }
@@ -63,7 +174,7 @@ public class PlatformerMovement : MonoBehaviour
         isDashing = true;
         float originalGravity = rb2d.gravityScale;
         rb2d.gravityScale = .1f;
-        rb2d.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        rb2d.linearVelocity = new Vector2(direction * dashingPower, 0f);
         trailrenderer.emitting = true;
         yield return new WaitForSeconds(dashingTime);
         trailrenderer.emitting = false;
