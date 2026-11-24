@@ -20,24 +20,27 @@ public class PlatformerMovement : MonoBehaviour
     private float direction;
     private bool WallReadyLeft;
     private bool WallReadyRight;
-    public float ShardCount;
-    public float JumpSHeight;
+    private bool WallJumping;
     public float WallJumpSpeed;
+    public float WallJumpTime;
+    public float JumpSHeight;
+    public float ShardCount;
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private TrailRenderer trailrenderer;
-    [SerializeField] private LayerMask WallRight;
     [SerializeField] private LayerMask WallLeft;
+    [SerializeField] private LayerMask Stairs;
+    [SerializeField] private LayerMask Nothing;
     void Awake()
        
     {
         rb2d = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
-
+        WallJumping = false;
     }
 
     void Update()
     {
-        if (isDashing == false)
+        if (isDashing == false && WallJumping == false)
         {
             rb2d.linearVelocityX = _Movement;
         }
@@ -46,6 +49,14 @@ public class PlatformerMovement : MonoBehaviour
             JumpS = true;
             WallReadyLeft = true;
             WallReadyRight = true;
+        }
+        if (Stair())
+        {
+            rb2d.gravityScale = 0f;
+        }
+        if (Air())
+        {
+            rb2d.gravityScale = 3f;
         }
     }
     //walk
@@ -88,7 +99,7 @@ public class PlatformerMovement : MonoBehaviour
         // Wall Jump
         else if (ShardCount >= 4)
         {
-            WallJump();
+            StartCoroutine(WallJump());
         }
     }
     //Jump
@@ -108,45 +119,43 @@ public class PlatformerMovement : MonoBehaviour
     {
         rb2d.linearVelocityY = JumpSHeight;
         JumpS = false;
-        Debug.Log ("Oops");
+        Debug.Log("Double");
     }
     
     //Wall Jump
-    private void WallJump()
+    public IEnumerator WallJump()
     {
         if (LeftCling() && WallReadyLeft == true)
         {
+            Debug.Log("Jump?");
+            WallJumping = true;
             WallReadyLeft = false;
             WallReadyRight = true;
             rb2d.linearVelocityY = WallJumpSpeed;
-            rb2d.linearVelocityX = -movespeed;
-            //rb2d.linearVelocity = new Vector2(direction * WallJumpSpeed.x, WallJumpSpeed.y);
+            rb2d.linearVelocityX = WallJumpSpeed;
+            yield return new WaitForSeconds(WallJumpTime);
+            WallJumping = false;
         }
         else if (RightCling() && WallReadyRight == true)
         {
+            Debug.Log("Jump?");
+            WallJumping = true;
             WallReadyLeft = true;
             WallReadyRight = false;
             rb2d.linearVelocityY = WallJumpSpeed;
-            rb2d.linearVelocityX = -movespeed;
-            //rb2d.linearVelocity = new Vector2(direction * WallJumpSpeed.x, WallJumpSpeed.y);
+            rb2d.linearVelocityX = -WallJumpSpeed;
+            yield return new WaitForSeconds(WallJumpTime);
+            WallJumping = false;
         }
     }
 
     //Regular Jump
     private bool IsGrounded()
 
-    {
-        if (LeftCling() || RightCling())
-        {
-            // Does Nothing
-            return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .0f, jumpableGround);
-        }
-        else
         {
             return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
         }
         
-    }
 
     // wall jump pt 2
     private bool LeftCling()
@@ -157,6 +166,15 @@ public class PlatformerMovement : MonoBehaviour
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.right, .1f, WallLeft);
     }
+    // stairs
+    private bool Stair()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.up, .1f, Stairs);
+    }
+    private bool Air()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.up, .1f, Nothing);
+    }
     // Dash
 
     public void Dasher(InputAction.CallbackContext ctx)
@@ -166,14 +184,12 @@ public class PlatformerMovement : MonoBehaviour
             StartCoroutine(Dash());
         }
     }
-
-
     private IEnumerator Dash()
     {
         canDash = false;
         isDashing = true;
         float originalGravity = rb2d.gravityScale;
-        rb2d.gravityScale = .1f;
+        rb2d.gravityScale = 0f;
         rb2d.linearVelocity = new Vector2(direction * dashingPower, 0f);
         trailrenderer.emitting = true;
         yield return new WaitForSeconds(dashingTime);
